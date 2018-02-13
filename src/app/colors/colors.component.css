@@ -1,0 +1,39 @@
+.yarn-colors {
+  clear: left;
+  list-style-type: none;
+  margin: 0px;
+  overflow: visible;
+  padding: 0px;
+}
+
+.yarn-color-list {
+  margin: 0px;
+  list-style-type: none;
+  padding: 0px;
+}
+
+.yarn-colors-token {
+  cursor: default;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: visible;
+  padding: 4px;
+  white-space: nowrap;
+  position: relative;
+  margin-right: 2px;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.yarn-colors-token:hover {
+	border: 1px solid rgb(160, 160, 160);
+}
+
+.yarn-colors-token-icon {
+	cursor: pointer;
+}
+
+.yarn-colors-token-icon:hover {
+	color: rgb(160,160,160);
+}

@@ -1,0 +1,267 @@
+<p-table #table
+         [value]="items"
+         [(contextMenuSelection)]="item"
+         [scrollable]="true" 
+         scrollHeight="calc(100vh - 140px)"
+         [resizableColumns]="true"
+         [contextMenu]="cm">
+  <ng-template pTemplate="header">
+
+    <tr>
+      <th class="manufacturer-column"
+          pResizableColumn
+          [pSortableColumn]="'manufacturer'">Merkki
+        <p-sortIcon [field]="'manufacturer'"></p-sortIcon>
+      </th>
+      <th class="yarn-column"
+          pResizableColumn
+          [pSortableColumn]="'yarn'">
+        <div>Lanka
+          <p-sortIcon [field]="'yarn'"></p-sortIcon>
+        </div>
+      </th>
+      <th class="colors-column"
+          pResizableColumn>Värit</th>
+      <th class="color-info-column"
+          pResizableColumn
+          [pSortableColumn]="'colorInfo'">Värin tarkenne
+        <p-sortIcon [field]="'colorInfo'"></p-sortIcon>
+      </th>
+      <th class="color-class-column"
+          pResizableColumn
+          [pSortableColumn]="'colorClass'">Väriluokka
+        <p-sortIcon [field]="'colorClass'"></p-sortIcon>
+      </th>
+      <th class="color-number-column"
+          pResizableColumn
+          [pSortableColumn]="'colorNumber'">Värinumero
+        <p-sortIcon [field]="'colorNumber'"></p-sortIcon>
+      </th>
+      <th class="materials-column"
+          pResizableColumn>Materiaalit</th>
+      <th class="skein-weight-column"
+          pResizableColumn
+          [pSortableColumn]="'weightOfSkein'">g / kerä
+        <p-sortIcon [field]="'weightOfSkein'"></p-sortIcon>
+      </th>
+      <th class="skein-length-column"
+          pResizableColumn
+          [pSortableColumn]="'lengthOfSkein'">m / kerä
+        <p-sortIcon [field]="'lengthOfSkein'"></p-sortIcon>
+      </th>
+      <th class="skein-price-column"
+          pResizableColumn
+          [pSortableColumn]="'priceOfSkein'">e / kerä
+        <p-sortIcon [field]="'priceOfSkein'"></p-sortIcon>
+      </th>
+      <th class="skein-remaining-weight-column"
+          pResizableColumn
+          [pSortableColumn]="'remainingWeight'">jäljellä g
+        <p-sortIcon [field]="'remainingWeight'"></p-sortIcon>
+      </th>
+      <th class="skein-remaining-length-column"
+          pResizableColumn
+          [pSortableColumn]="'remainingLength'">jäljellä m
+        <p-sortIcon [field]="'remainingLength'"></p-sortIcon>
+      </th>      
+      <th class="skein-length-per-weight-column"
+          pResizableColumn
+          [pSortableColumn]="'lengthPerWeight'">m / 50g
+        <p-sortIcon [field]="'lengthPerWeight'"></p-sortIcon>
+      </th>
+      <th class="value-of-yarn-column"
+          pResizableColumn
+          [pSortableColumn]="'valueOfYarn'">Langan arvo
+        <p-sortIcon [field]="'valueOfYarn'"></p-sortIcon>
+      </th>
+      <th class="tags-column"
+          pResizableColumn>
+        Tagit
+      </th>
+      <th class="locations-column"
+          pResizableColumn>
+        Sijainnit
+      </th>
+      <th class="purchase-dates-column"
+          pResizableColumn>
+        Ostopäivät
+      </th>
+      <th class="notes-column"
+          pResizableColumn>
+        Muistiinpanot
+      </th>      
+    </tr>
+    <tr>
+      <th class="manufacturer-column">
+        <input style="width:100%"
+               type="text"
+               placeholder="Kaikki merkit"
+               pInputText
+               (input)="table.filter($event.target.value, 'manufacturer', 'contains')">
+      </th>
+      <th class="yarn-column">
+        <input style="width:100%"
+               type="text"
+               placeholder="Kaikki langat"
+               pInputText
+               (input)="table.filter($event.target.value, 'yarn', 'contains')">
+      </th>
+      <th class="colors-column"
+          style="overflow:visible;">
+        <p-multiSelect [options]="colorsForFilter"
+                       defaultLabel="Kaikki värit"
+                       [style]="{'width':'100%'}"
+                       (onChange)="table.filter($event.value.join(' '), 'colorsAsString', 'contains')"></p-multiSelect>
+      </th>
+      <th class="color-info-column">
+        <input style="width:100%"
+               type="text"
+               placeholder="Kaikki tarkenteet"
+               pInputText
+               (input)="table.filter($event.target.value, 'colorInfo', 'contains')">
+      </th>
+      <th class="color-class-column">
+        <input style="width:100%"
+               type="text"
+               placeholder="Kaikki luokitukset"
+               pInputText
+               (input)="table.filter($event.target.value, 'colorClass', 'contains')">
+      </th>
+      <th class="color-number-column">
+        <input style="width:100%"
+               type="text"
+               placeholder="Kaikki värinumerot"
+               pInputText
+               (input)="table.filter($event.target.value, 'colorNumber', 'contains')">
+      </th>
+      <th class="materials-column"
+          style="overflow:visible">
+        <p-multiSelect [options]="materialsForFilter"
+                       defaultLabel="Kaikki materiaalit"
+                       [style]="{'width':'100%'}"
+                       (onChange)="table.filter($event.value.join(' '), 'materialsAsString', 'contains')"></p-multiSelect>
+      </th>
+      <th class="skein-weight-column"></th>
+      <th class="skein-length-column"></th>
+      <th class="skein-price-column"></th>
+      <th class="skein-remaining-weight-column"></th>
+      <th class="skein-remaining-length-column"></th>
+      <th class="skein-length-per-weight-column"></th>
+      <th class="value-of-yarn-column"></th>
+      <th class="tags-column"
+          style="overflow:visible">
+        <p-multiSelect [options]="tagsForFilter"
+                       defaultLabel="Kaikki tagit"
+                       [style]="{'width':'100%'}"
+                       (onChange)="table.filter($event.value.join(' '), 'tagsAsString', 'contains')"></p-multiSelect>
+      </th>
+      <th class="locations-column"
+          style="overflow:visible">
+        <p-multiSelect [options]="locationsForFilter"
+                       defaultLabel="Kaikki sijainnit"
+                       [style]="{'width':'100%'}"
+                       (onChange)="table.filter($event.value.join(' '), 'locationsAsString', 'contains')"></p-multiSelect>
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body"
+               let-rowData
+               let-item>
+    <tr [pContextMenuRow]="rowData">
+      <td class="manufacturer-column">{{item.manufacturer}}</td>
+      <td class="yarn-column">{{item.yarn}}</td>
+      <td class="colors-column">{{item.colors | listWithCommas}}
+        <div style="display:flex;border:1px solid #CCC">
+          <div *ngFor="let color of item.colors"
+               style="flex-grow: 1;height:15px"
+               [style.backgroundColor]="color.rgb"
+               [title]="color.label + '(' + color.rgb + ')'"></div>
+        </div>
+      </td>
+      <td class="color-info-column">{{item.colorInfo}}</td>
+      <td class="color-class-column">{{item.colorClass}}</td>
+      <td class="color-number-column">{{item.colorNumber}}</td>
+      <td class="materials-column">
+        <app-material-bar [materials]="item.materials"></app-material-bar>
+      </td>
+      <td class="skein-weight-column">{{item.weightOfSkein | number : '1.0-0' | finnishDecimal}}</td>
+      <td class="skein-length-column">{{item.lengthOfSkein | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-price-column">{{item.priceOfSkein | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-remaining-weight-column">{{item.remainingWeight | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-remaining-length-column">{{item.remainingLength | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-length-per-weight-column">{{item.lengthPerWeight | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="value-of-yarn-column">{{item.valueOfYarn | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="tags-column">{{item.tags | listWithCommas}}</td>
+      <td class="locations-column">{{item.locations | listWithCommas}}</td>
+      <td class="purchase-dates-column">{{item.purchaseDates | listWithCommas}}</td>
+      <td class="notes-column">{{item.notes}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <tr>
+      <td class="manufacturer-column"></td>
+      <td class="yarn-column"></td>
+      <td class="colors-column"></td>
+      <td class="color-info-column"></td>
+      <td class="color-class-column"></td>
+      <td class="color-number-column"></td>
+      <td class="materials-column"></td>
+      <td class="skein-weight-column footer-summary">{{getTotal('weightOfSkein') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-length-column footer-summary">{{getTotal('lengthOfSkein') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-price-column footer-summary">{{getTotal('priceOfSkein') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-remaining-weight-column footer-summary">{{getTotal('remainingWeight') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-remaining-length-column footer-summary">{{getTotal('remainingLength') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="skein-length-per-weight-column footer-summary">{{getTotal('lengthPerWeight') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="value-of-yarn-column footer-summary">{{getTotal('valueOfYarn') | number : '1.2-2' | finnishDecimal}}</td>
+      <td class="tags-column"></td>
+      <td class="locations-column"></td>
+      <td class="purchase-dates-column"></td>
+      <td class="notes"></td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-contextMenu #cm
+               [model]="contextMenuItems"></p-contextMenu>
+<!-- Yarn edit -->
+<p-dialog [width]="900"
+          [resizable]="true"
+          modal="true"
+          [contentStyle]="{'overflow':'visible'}"
+          [(visible)]="displayEditDialog">
+  <p-header>
+    {{getEditDialogTitle()}}
+  </p-header>
+  <div style="overflow:auto;max-height: 85vh">
+    <app-yarn-details [item]="editableItem"></app-yarn-details>
+  </div>
+  <p-footer>
+    <button pButton
+            label="Tallenna"
+            icon="fa-check"
+            class="ui-button-success"
+            (click)="saveChanges()"></button>
+    <button pButton
+            label="Peruuta"
+            (click)="cancel()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [width]="400"
+          [resizable]="true"
+          modal="true"
+          [(visible)]="displayDeleteConfimationDialog">
+  <p-header>
+    Varmistus
+  </p-header>
+  Oletko varma, että haluat poistaa langan?
+  <p-footer>
+    <button pButton
+            label="Poista"
+            class="ui-button-danger"
+            (click)="deleteItem(item)"></button>
+    <button pButton
+            label="Peruuta"
+            (click)="closeDeleteConfimationDialog()"></button>
+  </p-footer>
+</p-dialog>

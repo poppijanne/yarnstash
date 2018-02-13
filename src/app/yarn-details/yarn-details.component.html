@@ -1,0 +1,313 @@
+<p-fieldset legend="Langan tiedot"
+            [toggleable]="true">
+  <div class="ui-g">
+    <div class="ui-g-3">
+      Merkki
+    </div>
+    <div class="ui-g-9">
+      <p-autoComplete name="item-manufacturer"
+                      [(ngModel)]="item.manufacturer"
+                      [style]="{'width':'100%'}"
+                      [inputStyle]="{'width':'100%'}"
+                      [suggestions]="filteredManufacturers"
+                      (completeMethod)="searchManufacturers($event)"
+                      styleClass="wid100">
+      </p-autoComplete>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-3">
+      Lanka
+    </div>
+    <div class="ui-g-9">
+      <p-autoComplete name="item-yarn"
+                      [(ngModel)]="item.yarn"
+                      [style]="{'width':'100%'}"
+                      [inputStyle]="{'width':'100%'}"
+                      [suggestions]="filteredYarns"
+                      (completeMethod)="searchYarns($event)"
+                      required="true"
+                      styleClass="wid100">
+      </p-autoComplete>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-3">
+      Tagit
+    </div>
+    <div class="ui-g-9">
+      <p-chips name="item-tags"
+               [(ngModel)]="item.tags">
+      </p-chips>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-3">
+      Sijainti
+    </div>
+    <div class="ui-g-9">
+      <p-chips name="item-locations"
+               [(ngModel)]="item.locations">
+      </p-chips>
+    </div>
+  </div>
+  <fieldset>
+    <legend>Väri</legend>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Värit
+      </div>
+      <div class="ui-g-9">
+        <app-colors [item]="item"></app-colors>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Värin tarkenne
+      </div>
+      <div class="ui-g-9">
+        <p-autoComplete name="item-color-info"
+                        [(ngModel)]="item.colorInfo"
+                        [style]="{'width':'100%'}"
+                        [inputStyle]="{'width':'100%'}"
+                        [suggestions]="filteredColorInfos"
+                        (completeMethod)="searchColorInfos($event)"
+                        styleClass="wid100">
+        </p-autoComplete>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Väriluokitus
+      </div>
+      <div class="ui-g-9">
+        <p-autoComplete name="item-color-class"
+                        [(ngModel)]="item.colorClass"
+                        [style]="{'width':'100%'}"
+                        [inputStyle]="{'width':'100%'}"
+                        [suggestions]="filteredColorClasses"
+                        (completeMethod)="searchColorClasses($event)"
+                        styleClass="wid100">
+        </p-autoComplete>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Värinumero
+      </div>
+      <div class="ui-g-9">
+        <p-autoComplete name="item-color-number"
+                        [(ngModel)]="item.colorNumber"
+                        [style]="{'width':'100%'}"
+                        [inputStyle]="{'width':'100%'}"
+                        [suggestions]="filteredColorNumbers"
+                        (completeMethod)="searchColorNumbers($event)"
+                        styleClass="wid100">
+        </p-autoComplete>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Materiaali</legend>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Materiaalit
+      </div>
+      <div class="ui-g-9">
+        <p-table #table
+                 [value]="item.materials">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Materiaali</th>
+              <th style="width:90px">%</th>
+              <th style="width:50px"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body"
+                       let-rowIndex="rowIndex"
+                       let-rowData
+                       let-material>
+            <tr>
+              <td style="overflow:visible">
+                <p-dropdown [options]="fibers"
+                            [(ngModel)]="material.fiber"
+                            [style]="{'width':'100%'}"
+                            placeholder="Valitse materiaali"
+                            optionLabel="label">
+                </p-dropdown>
+              </td>
+              <td>
+                <input type="number"
+                       style="width:100%"
+                       pInputText
+                       [(ngModel)]="material.percentage"
+                       step="5"
+                       min="0"
+                       max="100" />
+              </td>
+              <td>
+                <button pButton
+                        type="button"
+                        icon="fa-trash"
+                        (click)="item.removeMaterial(material)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <button pButton
+                type="button"
+                icon="fa-plus"
+                style="margin-top: 3px"
+                label="Lisää materiaali"
+                (click)="item.addMaterial()"></button>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Konepestävä
+      </div>
+      <div class="ui-g-9">
+        <p-checkbox name="item-machine-washable"
+                    [(ngModel)]="item.machineWashable"
+                    binary="true"></p-checkbox>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Kerän tiedot</legend>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Paino (g)
+      </div>
+      <div class="ui-g-9">
+        <input name="item-weight-of-skein"
+               type="number"
+               style="width:100%"
+               step="0.10"
+               pInputText
+               [(ngModel)]="item.weightOfSkein" />
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Metrimäärä
+      </div>
+      <div class="ui-g-9">
+        <input name="item-length-of-skein"
+               type="number"
+               style="width:100%"
+               step="0.10"
+               pInputText
+               [(ngModel)]="item.lengthOfSkein" />
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-3">
+        Hinta
+      </div>
+      <div class="ui-g-9">
+        <input name="item-price-of-skein"
+               type="number"
+               style="width:100%"
+               step="0.10"
+               pInputText
+               [(ngModel)]="item.priceOfSkein" />
+      </div>
+    </div>
+  </fieldset>
+</p-fieldset>
+<p-fieldset legend="Omat tiedot" [toggleable]="true">
+  <div class="ui-g">
+    <div class="ui-g-3">
+      Ostopäivät
+    </div>
+    <div class="ui-g-9">
+      <p-chips name="item-purchase-dates"
+               [(ngModel)]="item.purchaseDates">
+      </p-chips>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-3">
+      Saldo (g)
+    </div>
+    <div class="ui-g-9">
+      <input name="item-remaining-weight"
+             type="number"
+             style="width:100%"
+             step="0.10"
+             pInputText
+             [(ngModel)]="item.remainingWeight" />
+    <button pButton
+            label="Muokkaa saldoa"
+            (click)="openHistoryDialog()"></button>             
+    </div>
+  </div>
+</p-fieldset>
+
+<p-dialog [width]="800"
+          [resizable]="true"
+          [style]="{'z-index':'2000'}"         
+          [(visible)]="displayHistoryDialog">
+  <p-header>
+    Langan historia
+  </p-header>
+        <p-table #historyTable
+                 [value]="item.history">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width:120px">Päivämäärä</th>
+              <th style="width:120px">Saldo (g)</th>
+              <th>Tapahtuma</th>
+              <th style="width:50px"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body"
+                       let-rowIndex="rowIndex"
+                       let-rowData
+                       let-history>
+            <tr>
+              <td style="overflow:visible">
+                <input type="text"
+                       style="width:100%"
+                       pInputText
+                       [(ngModel)]="history.date"/>                
+              </td>
+              <td>
+                <input type="number"
+                       style="width:100%"
+                       pInputText
+                       [(ngModel)]="history.weightOfYarn"
+                       step="5"
+                       min="0"
+                       max="100" />
+              </td>           
+              <td>
+                <input type="text"
+                       style="width:100%"
+                       pInputText
+                       [(ngModel)]="history.note"/>
+              </td>              
+              <td>
+                <button pButton
+                        type="button"
+                        icon="fa-trash"
+                        (click)="item.removeHistory(history)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <button pButton
+                type="button"
+                icon="fa-plus"
+                style="margin-top: 3px"
+                label="Lisää tapahtuma"
+                (click)="item.addHistory()"></button>
+  <p-footer>
+    <button pButton
+            label="Sulje"
+            (click)="closeHistoryDialog()"></button>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,20 @@
+<div class="yarn-colors">
+  <ul class="yarn-color-list">
+    <li *ngFor="let color of item.colors"
+        class="yarn-colors-token">
+      <p-colorPicker [(ngModel)]="color.rgb"></p-colorPicker>
+      <p-autoComplete [(ngModel)]="color.label"
+                      [style]="{'width':'100px'}"
+                      [inputStyle]="{'width':'100px'}"
+                      [suggestions]="filteredColors"
+                      (completeMethod)="searchColors($event)">
+      </p-autoComplete>
+      <i class="fa fa-close yarn-colors-token-icon"
+         (click)="item.removeColor(color)"></i>
+    </li>
+    <li class="yarn-colors-token">
+      <i class="fa fa-plus yarn-colors-token-icon"
+         (click)="item.addColor()"></i>    	
+    </li>
+  </ul>
+</div>

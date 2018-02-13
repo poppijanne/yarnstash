@@ -1,0 +1,9 @@
+<div class="material-bar-container">
+  <div *ngFor="let material of materials; let i=index;"
+       class="material-bar-item"
+       [title]="material.fiber.label + ' (' + (material.percentage | number : '1.2-2' | finnishDecimal) + '%)'"
+       [style.backgroundColor]="material.fiber.color"
+       [style.flexBasis]="material.percentage+'%'">
+   		{{material.fiber.label + ' ' + (material.percentage | number : '1.2-2' | finnishDecimal) + '%'}}
+   		</div>
+</div>
